@@ -63,10 +63,10 @@ jobs:
           NODE_OPTIONS: '--max-old-space-size=4096'
 
       - name: 部署到 Cloudflare Pages
-          uses: cloudflare/pages-action@v1
-          with:
-            apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-            accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-            projectName: 'gtchat-docs' # 请根据实际情况修改项目名称
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: 'gtchat-docs' # 请根据实际情况修改项目名称
           directory: 'main-repo/docs/.vitepress/dist'
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
