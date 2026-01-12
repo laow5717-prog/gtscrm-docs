@@ -51,7 +51,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'pnpm'
-          cache-dependency-path: main-repo/pnpm-lock.yaml
+          cache-dependency-path: 'main-repo/pnpm-lock.yaml'
 
       - name: 安装依赖
         working-directory: main-repo
