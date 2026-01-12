@@ -7,7 +7,7 @@ import { execSync } from 'node:child_process';
 import {
   viteArchiverPlugin,
   viteVxeTableImportsPlugin,
-} from '../plugins/stub-vite-config';
+} from '@vben/vite-config';
 
 import {
   GitChangelog,
