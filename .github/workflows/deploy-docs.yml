@@ -28,18 +28,18 @@ jobs:
 
       - name: 将子模块内容复制到主仓库
         run: |
-          cd main-repo
-          # 删除现有 docs 内容（保留 .git 如果是子模块）
+          # 删除主仓库中现有的 docs 内容（保留 .git 如果是子模块）
+          cd ${{ github.workspace }}/main-repo
           find docs -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} + 2>/dev/null || true
-          # 复制当前子模块内容（排除 .git, node_modules, .turbo 等）
+          
+          # 使用 rsync 将子模块内容复制到主仓库（确保所有文件包括隐藏文件都被复制）
           cd ${{ github.workspace }}
-          # 使用 rsync 确保所有文件（包括隐藏文件）都被复制
           rsync -av --exclude='.git' \
             --exclude='node_modules' \
             --exclude='.turbo' \
             --exclude='.DS_Store' \
             --exclude='.github' \
-            ./ ../main-repo/docs/
+            ./ ${{ github.workspace }}/main-repo/docs/
 
       - name: 验证文件复制（调试）
         working-directory: main-repo/docs
