@@ -15,8 +15,30 @@ jobs:
       deployments: write
     
     steps:
-      - name: 检出代码
+      - name: 检出子模块代码
         uses: actions/checkout@v4
+
+      - name: 检出主仓库（用于获取 workspace 依赖）
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.MAIN_REPO || 'laow5717-prog/gtscrm-backend-web' }}
+          token: ${{ secrets.MAIN_REPO_TOKEN || secrets.GITHUB_TOKEN }}
+          path: main-repo
+
+      - name: 将子模块内容复制到主仓库
+        run: |
+          cd main-repo
+          # 删除现有 docs 内容（保留 .git 如果是子模块）
+          find docs -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} + 2>/dev/null || true
+          # 复制当前子模块内容（排除 .git, node_modules, .turbo 等）
+          cd ${{ github.workspace }}
+          find . -mindepth 1 -maxdepth 1 \
+            ! -name '.git' \
+            ! -name 'node_modules' \
+            ! -name '.turbo' \
+            ! -name '.DS_Store' \
+            ! -name '.github' \
+            -exec cp -r {} ../main-repo/docs/ \;
 
       - name: 安装 pnpm
         uses: pnpm/action-setup@v4
@@ -27,12 +49,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'pnpm'
+          cache-dependency-path: main-repo/pnpm-lock.yaml
 
       - name: 安装依赖
-        run: pnpm install
+        working-directory: main-repo
+        run: pnpm install --frozen-lockfile
 
       - name: 构建文档
-        run: pnpm run build
+        working-directory: main-repo
+        run: pnpm run build:docs
         env:
           NODE_OPTIONS: '--max-old-space-size=4096'
 
@@ -42,5 +68,5 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: 'gtchat-docs' # 请根据实际情况修改项目名称
-          directory: '.vitepress/dist'
+          directory: 'main-repo/docs/.vitepress/dist'
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
