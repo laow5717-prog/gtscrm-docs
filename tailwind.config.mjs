@@ -1,11 +1,12 @@
-import tailwindcssConfig from '@vben/tailwind-config';
-
+/** @type {import('tailwindcss').Config} */
 export default {
-  ...tailwindcssConfig,
   content: [
-    ...tailwindcssConfig.content,
     '.vitepress/**/*.{js,mts,ts,vue}',
     'src/demos/**/*.{js,mts,ts,vue}',
     'src/**/*.md',
   ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
 };
