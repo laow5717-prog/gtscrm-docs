@@ -22,8 +22,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ secrets.MAIN_REPO || 'laow5717-prog/gtscrm-backend-web' }}
-          token: ${{ secrets.MAIN_REPO_TOKEN || secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.MAIN_REPO_TOKEN }}
           path: main-repo
+          fetch-depth: 1
 
       - name: 将子模块内容复制到主仓库
         run: |

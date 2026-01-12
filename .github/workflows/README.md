@@ -27,7 +27,22 @@
 - `CLOUDFLARE_API_TOKEN`: Cloudflare API Token
 - `CLOUDFLARE_ACCOUNT_ID`: Cloudflare Account ID
 - `MAIN_REPO`: 主仓库地址（可选，默认：`laow5717-prog/gtscrm-backend-web`）
-- `MAIN_REPO_TOKEN`: 访问主仓库的 token（如果主仓库是私有仓库，否则可选）
+- `MAIN_REPO_TOKEN`: **必需** - 访问主仓库的 Personal Access Token (PAT)
+
+#### 如何创建 MAIN_REPO_TOKEN
+
+如果主仓库是私有仓库，您需要创建一个 Personal Access Token (PAT)：
+
+1. 登录 GitHub
+2. 进入 Settings → Developer settings → Personal access tokens → Tokens (classic)
+3. 点击 "Generate new token (classic)"
+4. 填写以下信息：
+   - **Note**: 例如 "gtscrm-docs-deploy"
+   - **Expiration**: 选择适当的过期时间
+   - **Scopes**: 勾选 `repo` 权限（完整仓库访问权限）
+5. 点击 "Generate token"
+6. **重要**: 复制生成的 token（只显示一次）
+7. 在 docs 子模块仓库的 Secrets 中添加 `MAIN_REPO_TOKEN`，值为刚才复制的 token
 
 ### 3. 修改项目名称（可选）
 
