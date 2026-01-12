@@ -2,7 +2,7 @@
 
 ## 功能说明
 
-当 `docs` 子模块仓库有更新时，自动构建并部署到 Cloudflare Pages。
+当 `docs` 仓库有更新时，自动构建并部署到 Cloudflare Pages。
 
 ## 配置步骤
 
@@ -20,14 +20,12 @@
 
 ### 2. 配置 GitHub Secrets
 
-在 **docs 子模块仓库**（`laow5717-prog/gtscrm-docs`）中配置：
+在 **docs 仓库**（`laow5717-prog/gtscrm-docs`）中配置：
 
 进入 GitHub 仓库 → Settings → Secrets and variables → Actions，添加以下 Secrets：
 
 - `CLOUDFLARE_API_TOKEN`: Cloudflare API Token
 - `CLOUDFLARE_ACCOUNT_ID`: Cloudflare Account ID
-- `MAIN_REPO`: 主仓库地址（可选，默认：`laow5717-prog/gtscrm-backend-web`）
-- `MAIN_REPO_TOKEN`: 访问主仓库的 token（如果主仓库是私有仓库，否则可选）
 
 ### 3. 修改项目名称（可选）
 
@@ -35,12 +33,11 @@
 
 ## 工作原理
 
-1. 工作流在 docs 子模块仓库中触发
-2. 检出当前触发工作流的子模块代码
-3. 检出主仓库（用于获取 workspace 依赖）
-4. 将当前子模块内容复制到主仓库的 docs 目录
-5. 在主仓库环境中安装依赖并构建文档
-6. 将构建产物部署到 Cloudflare Pages
+1. 工作流在 docs 仓库中触发
+2. 检出代码
+3. 安装依赖
+4. 构建文档
+5. 将构建产物部署到 Cloudflare Pages
 
 ## 使用
 
